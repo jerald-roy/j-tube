@@ -1,0 +1,15 @@
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+.touch-auto {
+  -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+  cursor: grab; /* indicates draggable */
+}
+.touch-auto:active {
+  cursor: grabbing;
+}

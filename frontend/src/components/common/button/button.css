@@ -1,0 +1,39 @@
+.my-custom-button{
+    padding: 10px 20px;
+    background-color:#161a20;
+    color:#f0f0f0;
+    border:none;
+    border-radius: 1000px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    
+}
+
+.my-custom-button::after{
+    content:'';
+    position: absolute;
+    height:108% ;
+    width:102%;
+    border-radius:1000px ;
+    background-image: linear-gradient(to bottom right ,#8abbe4 , #8c19cf);
+    z-index:-1;
+}
+.my-custom-button:hover{
+   z-index:1;
+}
+
+@media(max-width:1280px){
+   .my-custom-button{
+    padding: 8px 16px;
+    font-size: 22px;
+   }
+}
+@media(max-width:640px){
+   .my-custom-button{
+    padding: 6px 12px;
+    font-size: 18px;
+   }
+}
