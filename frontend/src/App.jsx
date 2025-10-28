@@ -10,12 +10,13 @@ import PublicProfilePage from "./pages/PublicProfilePage/publicProfilePage.jsx"
 import PrivatePlaylist from "./pages/privatePlaylist/privatePlaylist.jsx"
 import { Navigate } from "react-router-dom"
 import CheckPlaylist from "./pages/privatePlaylist/checkPlaylist.jsx"
-
+import UpdateProfile from "./pages/updateProfile/updateProfile.jsx"
 import { UserContext } from "./components/userContext.jsx"
 import AddVideos from "./pages/VideoPage/addVideosToPlaylist.jsx"
 import UpdatePlaylist from "./pages/privatePlaylist/updatePlaylist.jsx"
 import MySub from "./pages/MySubPlaylist/mySub.jsx"
-
+import UploadVideo from "./pages/UploadVideo/uploadVideo.jsx"
+import VideoForm from "./pages/UploadVideo/videoForm.jsx"
 
 
 
@@ -42,7 +43,10 @@ var {user} = useContext(UserContext)
                 <Route path="/checkPlaylist" element={<div></div>}></Route>
                 <Route path="/navigatePlaylist" element={<div></div>}></Route>
                 <Route path="/updatePlaylist" element={<div></div>}></Route>
-                <Route path="/mySub" element={<div></div>}></Route>
+              <Route path="/mySub" element={<div></div>}></Route>
+              <Route path="/updateProfile" element={<div></div>}></Route>
+              <Route path="/uploadVideo" element={<div></div>}></Route>
+              <Route path="/videoForm" element={<div></div>}></Route>
               </>) :
               (
                 <>
@@ -57,7 +61,10 @@ var {user} = useContext(UserContext)
         <Route path="/checkPlaylist" element={<CheckPlaylist></CheckPlaylist>}></Route>            
           <Route path="/navigatePlaylist" element={<AddVideos></AddVideos>}></Route> 
           <Route path="/updatePlaylist" element={<UpdatePlaylist></UpdatePlaylist>}></Route>   
-        <Route path="/mySub" element={<MySub></MySub>}></Route>            
+           <Route path="/mySub" element={<MySub></MySub>}></Route>    
+          <Route path="/updateProfile" element={<UpdateProfile></UpdateProfile>}></Route>   
+                  <Route path="/uploadVideo" element={<UploadVideo></UploadVideo>}></Route> 
+        <Route path="/videoForm" element={<VideoForm></VideoForm>}></Route>          
         </Route>   </> 
             )
         }

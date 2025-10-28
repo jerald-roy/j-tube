@@ -273,18 +273,20 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 
 const updateAccountDetails = asyncHandler(async(req, res) => {
     const {fullName, email} = req.body
-
-    if (!fullName || !email) {
+   
+    if (!fullName && !email) {
         throw new ApiError(400, "no data is entered")
     }
+
+     var updatedFields = {}
+    if (fullName) updatedFields.fullName = fullName
+    if (email) updatedFields.email = email
+    
 
     const user = await User.findByIdAndUpdate(
         req.user?._id,
         {
-            $set: {
-                fullName,
-                email: email
-            }
+            $set: updatedFields
         },
         {new: true}
         
@@ -435,58 +437,58 @@ const getUserChannelProfile = asyncHandler(async(req, res) => {
     )
 })
 
-const getWatchHistory = asyncHandler(async(req, res) => {
-    //so ok whoever is requesting this data of watch history we always give them back their history only
-    const user = await User.aggregate([
+const getWatchHistory = asyncHandler(async (req, res) => {
+    var { page = 1, limit = 2} = req.query
+
+    const skip = (page - 1) * limit;
+    var watchHistoryResult = await User.aggregate([
         {
-            $match: {
-                _id: new mongoose.Types.ObjectId(req.user._id)
-            }
+            $match:{ _id : new mongoose.Types.ObjectId(req.user._id)}
         },
         {
-            $lookup: {
-                from: "videos",
-                localField: "watchHistory",
-                foreignField: "_id",
-                as: "watchHistory",
-                pipeline: [
-                    {
-                        $lookup: {
-                            from: "users",
-                            localField: "owner",
-                            foreignField: "_id",
-                            as: "owner",
-                            pipeline: [
-                                {
-                                    $project: {
-                                        fullName: 1,
-                                        username: 1,
-                                        avatar: 1
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    { //lookup is always going to produce an array even if its an single match so dollar first is gonna give us the first element from that array  and we are inserting it with an single value and name this whole things just as owner and adding it to a feild called owner actually in this case replacing owner because owner already exist in the video feild so we are replacing that feild with this single value called owner which and 3 properties i should say 
-                        $addFields:{
-                            owner: {
-                                // "dollar owner" refers to the entire array produced by the dollar lookup.
-                                // dollar first: refers to getting or choosing just the first element of that whole array or the result from the lookup”
-                                $first: "$owner"
-                            }
-                        }
-                    }
-                ]
+            $project: {
+                watchHistory: 1,
+                _id:0
             }
+        },
+       {
+  $lookup: {
+    from: "videos",
+    let: { videoIds: "$watchHistory" },
+    pipeline: [
+      { 
+        $match: { 
+          $expr: { $in: ["$_id", "$$videoIds"] } 
+        } 
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "owner",
+          foreignField: "_id",
+          as: "ownerDetails",
+          pipeline: [
+            { $project: { avatar: 1, _id: 0 } }
+          ]
         }
+      },
+      { $unwind: "$ownerDetails" }, // so it's not an array
+      { $project: { thumbnail: 1, title: 1, owner: "$ownerDetails.avatar" } }
+    ],
+    as: "watchedVideos"
+  }
+}
     ])
-
+   
     return res
     .status(200)
     .json(
         new ApiResponse(
             200,
-            user[0].watchHistory,
+            {
+               watchHistoryResult
+                
+            },
             "Watch history fetched successfully"
         )
     )

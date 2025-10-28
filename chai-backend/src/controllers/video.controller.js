@@ -10,17 +10,20 @@ import {uploadOnCloudinary , deleteOnCloudinary} from "../utils/cloudinary.js"
 
 //here the below route (getAllVideos) is for getting the videos of the particular user 
 const getAllVideos = asyncHandler(async (req, res) => {
-    const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query
+    const { page = 1, limit = 1, query, sortBy, sortType, userId } = req.query
     //TODO: get all videos based on query, sort, pagination
-    
+    console.log(page)
     //now we wanna just get all the video from the db based on certain conditions that is as simple as it is 
     //you cannot use if(query inside the aggregation pipeline so we need to build it dynamically)
     var pipeline = []
     //1.first we are matching the user
-   
+    var numberOfVideos = await Video.countDocuments({
+        owner:new mongoose.Types.ObjectId(req.user._id)
+    })
+    var numberOfPages = Math.ceil(numberOfVideos / limit) 
     pipeline.push({
         $match: {
-            owner:new mongoose.Types.ObjectId(userId)
+            owner:new mongoose.Types.ObjectId(req.user._id)
         }
     })
     //2.we will try to match the query if it exists
@@ -55,7 +58,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
         return res.status(200).json(new ApiResponse(200 , [] , "No videos available for to display or some internal error"))
     }
     
-    return res.status(200).json(new ApiResponse(200 , resultOfPipeline , " videos successfully fetched"))
+    return res.status(200).json(new ApiResponse(200 , {numberOfVideos , numberOfPages, resultOfPipeline} , " videos successfully fetched"))
 })
 //here the below route (videosForHomepage) is for getting the videos general ones from the video collection for the home page
 const videosForHomepage = asyncHandler(async (req, res) => {

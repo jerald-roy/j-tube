@@ -11,9 +11,7 @@ import { Sun } from 'lucide-react'
 import { ChevronsLeft } from 'lucide-react';
 import { ChevronsRight } from 'lucide-react';
 import { MoonStar } from 'lucide-react'
-// var profilePhoto = [
-//   {photo:profile1},{photo:profile2},{photo:profile3}
-// ]
+import UploadVideo from "../../pages/UploadVideo/uploadVideo";
 
 function SidebarContent({ changeSideBar, sidebar , profile}) {
   var navigation = useNavigate()
@@ -34,6 +32,10 @@ function SidebarContent({ changeSideBar, sidebar , profile}) {
   function handleSource() {
     navigation("/mySub")
   }
+
+  function handleUploadVideo() {
+    navigation("/uploadVideo")
+  }
   return <> {  sidebar ? (<div className='h-full relative'>
        <ChevronsLeft size={34} className='absolute right-0 bg-black rounded-full cursor-pointer max-xl:hidden' color="white" onClick={changeSideBar}></ChevronsLeft>
       
@@ -50,7 +52,7 @@ function SidebarContent({ changeSideBar, sidebar , profile}) {
           </span>
           
           <span title="Add a new Video">
-            <Plus  className='cursor-pointer text-newPurple w-[44px] h-[44px] max-lg:w-[34px] max-lg:h-[34px]'  />
+            <Plus  className='cursor-pointer text-newPurple w-[44px] h-[44px] max-lg:w-[34px] max-lg:h-[34px]' onClick={handleUploadVideo} />
            </span>
           <span title="check out the playlist">
             <ListVideo onClick={handlePlaylist}  className='cursor-pointer text-newPurple w-[44px] h-[44px] max-lg:w-[34px] max-lg:h-[34px]' ></ListVideo>

@@ -3,7 +3,7 @@ function FormPlaylist({ handleSubmit, handleChange, choose, setchoose, setCreate
     return <>
       <form className="dataform  w-[60%] max-sm:w-[75%] max-sm:h-[80%] h-[340px] rounded-md mt-16 grid "onSubmit={handleSubmit}>
                      <p className="font-mono text-black max-md:text-2xl max-sm:text-xl">Enter the details of playlist</p>
-                    <input type="text" placeholder="playlist name" className="bg-transparent text-black placeholder-gray-800 h-[60px] pt-2 border-b text-2xl max-md:text-xl focus:outline-none"name="name" onChange={ handleChange} >
+                    <input type="text" placeholder="playlist name" className="bg-transparent text-black placeholder-gray-800 h-[60px] pt-2 border-b text-2xl max-md:text-xl focus:outline-none" name="name" onChange={ handleChange} >
                     </input>  
                     <textarea type="text" name="description" placeholder="description" className="bg-transparent text-black placeholder-gray-800 h-[90px] border-b text-2xl focus:outline-none max-md:text-xl" onChange={handleChange}>
 

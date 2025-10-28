@@ -1,8 +1,11 @@
-
-
+import { useNavigate } from "react-router-dom"
 import Button from "../common/button/button.jsx"
-export default function FirstPart({ userData }) {
 
+export default function FirstPart({ userData }) {
+    var navigate = useNavigate()
+    function handleEdit() {
+         navigate("/updateProfile" ,{state:{id:userData.id}})
+     }
     return <div className="grid grid-cols-6 pt-5 font-mono  max-xl:grid-cols-1 text-3xl max-xl:text-2xl max-sm:text-xl">
         <div className="col-span-2 grid justify-center">
             <div className="h-60 w-60 max-xl:h-42 max-xl:w-42">
@@ -45,7 +48,7 @@ toalNumberOfVideos
                 </div>
                 <div className="flex pb-2" >
                     <div className=" ml-auto mr-auto text-right ">
-                        <Button text={"Edit"} ></Button>
+                        <Button text={"Edit"} onClick={() =>handleEdit()}></Button>
                     </div>
                     
                 </div>

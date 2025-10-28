@@ -1,5 +1,6 @@
 import { useState } from "react"
-import { useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+import Button from "../../components/common/button/button";
 const baseURL = import.meta.env.VITE_BASE_URL;
 
 function Register() {
@@ -59,20 +60,27 @@ function Register() {
         }
      }   
       
-        
+    function handleBack() {
+        navigate("/")
+    }
    
    
-    return <div className="bg-black  h-screen">
-        <form onSubmit={handleSubmit} className=" h-full ">
-            <div className="grid justify-center h-full">
-                <div>
+    return <div className="bg-gradient-to-r from-purple-400 to-gray-400  min-h-screen flex justify-center place-items-center">
+        <form onSubmit={handleSubmit} className="w-[70%] max-sm:w-[92%]  bg-[rgba(255,255,255,0.2)] ">
+            <div className=" h-full pl-5 grid">
+                  <div className="font-mono text-2xl max-sm:text-xl grid justify-center pt-6">
+                        <div>Enter the user details</div>
+                        
+                    </div>
+                <div className="pt-14">
+                  
                    <input
                         type="text"
                         name="username"
                          placeholder="username"
                         value={formData.username}
                         onChange={handleChange}
-                        className="h-10 placeholder-black"
+                        className=" bg-transparent text-black placeholder-gray-800 h-[60px]  border-b text-2xl max-md:text-xl focus:outline-none font-mono border-black w-full "
                         
                     ></input> 
                 </div>
@@ -83,7 +91,7 @@ function Register() {
                          placeholder="email"
                          value={formData.email}
                         onChange={handleChange}
-                        className="h-10 placeholder-black"
+                             className=" bg-transparent text-black placeholder-gray-800 h-[60px] pt-2 border-b text-2xl max-md:text-xl focus:outline-none border-black w-full"
                      ></input>
                 </div>  
                 <div>
@@ -93,16 +101,16 @@ function Register() {
                 placeholder="fullName"
                 value={formData.fullName}
                 onChange={handleChange}
-                className="h-10 placeholder-black"        
+                       className=" bg-transparent text-black placeholder-gray-800 h-[60px] pt-2 border-b text-2xl max-md:text-xl focus:outline-none border-black font-mono w-full"      
             ></input>
                 </div>
-                <div>
+                <div className="pt-4 pb-4">
                    <input
                 type="file"
                 name="avatar"
                 accept="image/*"
                 onChange={handleChange}
-                className="h-10 placeholder-black"
+                      className=" bg-transparent text-black placeholder-gray-800 h-[60px] pt-2 border-b text-2xl max-md:text-xl max-sm:text-lg focus:outline-none w-full font-mono border-black "
                  ></input>
                 </div>
                 <div>
@@ -112,11 +120,12 @@ function Register() {
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
-                className="h-10 placeholder-black"
+                      className=" bg-transparent text-black placeholder-gray-800 h-[60px] pt-2 border-b text-2xl max-md:text-xl focus:outline-none border-black font-mono"
             ></input>
                 </div>
-                 <div>
-<button type="submit" className="bg-white">Submit</button>
+                 <div className="pt-4 pb-2 flex gap-x-4">
+                    <Button text="submit" type="submit" >Submit</Button>
+                    <Button text="back" onClick={handleBack}></Button>
                 </div>
             </div>
            

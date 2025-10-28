@@ -2,15 +2,15 @@ import { SingleSection } from "../../home/heroLower"
 import "./cards.css"
 
 
-function Cards({arr}) {
-    var {_id , thumbnail , profilePhoto , title , channelname} = arr
-    return<div className="container w-full ">
-        <div className="cards max-sm:w-3/4 dark:bg-white bg-mainBackground">
-        <SingleSection _id={_id}
-            thumbnail={thumbnail}
-            profilePhoto={profilePhoto}
-            title={title}
-            channelName={channelname}
+function Cards({item}) {
+   
+    return<div className="container w-[400px] ">
+        <div className="cards  dark:bg-white bg-mainBackground  ">
+        <SingleSection _id={item._id}
+            thumbnail={item.thumbnail.url}
+            profilePhoto={item.owner.avatar}
+            title={item.title}
+            channelName={item.owner.username}
         ></SingleSection>
     </div>
     </div> 

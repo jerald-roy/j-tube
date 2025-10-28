@@ -69,7 +69,8 @@ const getChannelStats = asyncHandler(async (req, res) => {
         totalNumberOfViews: find[0]?.totalViews || 0,
         totalNumberOfLikes: find[0]?.totalLikes || 0,
         avatar: findOwner[0].avatar,
-        coverImage:findOwner[0].coverImage
+        coverImage: findOwner[0].coverImage,
+        id:findOwner[0]._id
    }
  
    return res.status(200).json(new ApiResponse(200 , data , "your complete data was fetched!"))
