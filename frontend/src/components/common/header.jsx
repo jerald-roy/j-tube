@@ -29,7 +29,7 @@ function Header() {
   
 }
 
-function Logo() {
+export function Logo() {
   return <>
     <div className='font-bold text-newPurple flex  '>
       <div className=''><h1 className='inline'>JTube</h1></div>

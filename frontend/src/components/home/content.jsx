@@ -26,7 +26,7 @@ function Content() {
   return <> 
     {sidebar ? <div className='grid grid-cols-10 max-lg:relative'>
 
-      <div className='bg-[#2f2f2f]   top-0 col-span-1  dark:bg-purple-200 z-10 max-lg:fixed max-lg:top-0 max-lg:w-1/4 '>
+      <div className='bg-[#2f2f2f] min-[100vh]  top-0 col-span-1  dark:bg-purple-200 z-10 max-lg:fixed max-lg:top-0 max-lg:w-1/4 '>
         <div className="  h-[800px] ">
            <SidebarContent 
           changeSideBar={changeSideBar}
