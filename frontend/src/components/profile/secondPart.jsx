@@ -19,9 +19,9 @@ export default function SecondPart() {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
-                setWatchHistoryData(data.data.user[0].watchHistory)
-                setSize(data.data.countDocument)
+                console.log(data.data.watchHistoryResult[0].watchedVideos)
+                setWatchHistoryData(data.data.watchHistoryResult[0].watchedVideos)
+                setSize(data.data.watchHistoryResult[0].watchedVideos.length)
                 setTotalPage(data.data.totalPages)
             })
             .catch(err => {

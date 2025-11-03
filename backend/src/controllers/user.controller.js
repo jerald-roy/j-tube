@@ -438,61 +438,63 @@ const getUserChannelProfile = asyncHandler(async(req, res) => {
 })
 
 const getWatchHistory = asyncHandler(async (req, res) => {
-    var { page = 1, limit = 2} = req.query
+  var { page = 1, limit = 2 } = req.query;
+  const skip = (page - 1) * limit;
 
-    const skip = (page - 1) * limit;
-    var watchHistoryResult = await User.aggregate([
-        {
-            $match:{ _id : new mongoose.Types.ObjectId(req.user._id)}
-        },
-        {
-            $project: {
-                watchHistory: 1,
-                _id:0
+  var watchHistoryResult = await User.aggregate([
+    {
+      $match: { _id: new mongoose.Types.ObjectId(req.user._id) }
+    },
+    {
+      $project: {
+        watchHistory: 1,
+        _id: 0
+      }
+    },
+    {
+      $lookup: {
+        from: "videos",
+        let: { videoIds: "$watchHistory" },
+        pipeline: [
+          {
+            $match: {
+              $expr: { $in: ["$_id", "$$videoIds"] }
             }
-        },
-       {
-  $lookup: {
-    from: "videos",
-    let: { videoIds: "$watchHistory" },
-    pipeline: [
-      { 
-        $match: { 
-          $expr: { $in: ["$_id", "$$videoIds"] } 
-        } 
-      },
-      {
-        $lookup: {
-          from: "users",
-          localField: "owner",
-          foreignField: "_id",
-          as: "ownerDetails",
-          pipeline: [
-            { $project: { avatar: 1, _id: 0 } }
-          ]
-        }
-      },
-      { $unwind: "$ownerDetails" }, // so it's not an array
-      { $project: { thumbnail: 1, title: 1, owner: "$ownerDetails.avatar" } }
-    ],
-    as: "watchedVideos"
-  }
-}
-    ])
-   
-    return res
+          },
+          {
+            $lookup: {
+              from: "users",
+              localField: "owner",
+              foreignField: "_id",
+              as: "ownerDetails",
+              pipeline: [
+                { $project: { avatar: 1, _id: 0 } }
+              ]
+            }
+          },
+          { $unwind: "$ownerDetails" },
+          { $project: { thumbnail: 1, title: 1, owner: "$ownerDetails.avatar" } },
+          { $skip: skip },
+          { $limit: parseInt(limit) }
+        ],
+        as: "watchedVideos"
+      }
+    }
+  ]);
+
+  return res
     .status(200)
     .json(
-        new ApiResponse(
-            200,
-            {
-               watchHistoryResult
-                
-            },
-            "Watch history fetched successfully"
-        )
-    )
-})
+      new ApiResponse(
+        200,
+        {
+          watchHistoryResult
+        },
+        "Watch history fetched successfully"
+      )
+    );
+});
+
 
 //the below controller is used for to get some few channels(images / profile) for the sidebar
 const getChannelProfile = asyncHandler(async (req, res) => {

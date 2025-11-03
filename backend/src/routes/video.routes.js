@@ -10,7 +10,8 @@ import {
     videosForHomepage,
     getOtherVideos,
     getViews,
-    getOtherVideos2
+    getOtherVideos2,
+    searchVideos
 } from "../controllers/video.controller.js"
 import {verifyJWT} from "../middlewares/auth.middleware.js"
 import {upload} from "../middlewares/multer.middleware.js"
@@ -52,4 +53,6 @@ router.route("/otherVideos/:videoId").get(getOtherVideos)
 router.route("/checkUserVideos/:ownerId").get(getOtherVideos2) 
 //this route is for getting the number of views for the video
 router.route("/checkViews/:videoId").get(getViews)
+//this below route is used for getting the video based upon the search keyword given by the user
+router.route("/search/keyword").get(searchVideos)
 export default router

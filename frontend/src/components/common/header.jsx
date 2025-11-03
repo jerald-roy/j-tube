@@ -11,20 +11,17 @@ import { UserContext } from '../userContext.jsx';
 const baseURL = import.meta.env.VITE_BASE_URL;
 function Header() {
   
-  return <header className={`grid grid-cols-7 items-center p-4 bg-[#201f21]
+  return <header className={`grid grid-cols-6 items-center p-4 bg-[#201f21]
  dark:bg-purple-200 max-sm:p-2`} >   
-    <div className="col-span-2 max-lg:col-span-5 max-sm:col-span-3">
+    <div className="col-span-4 max-lg:col-span-4 max-sm:col-span-3 max-sm:gap-x-2">
        <Logo></Logo>
     </div>
-    <div className='col-span-3 max-lg:hidden '>
-       <SearchBar></SearchBar>
-    </div>
-    <div className="col-span-2 max-lg:col-span-2 max-sm:col-span-4 max-sm:pr-1">
+    <div className="col-span-2 max-lg:col-span-2 max-sm:col-span-3 max-sm:pr-1">
       <nav>   
         <RightSideMenu></RightSideMenu>
       </nav>
    </div>
-      
+    
     </header>
   
 }
@@ -49,6 +46,7 @@ function RightSideMenu() {
   var location = useLocation()
   var isHome = location.pathname == '/home'
   var isProfile = location.pathname == '/profile'
+  var isSearch = location.pathname == '/searchPage'
   function changeNavigation() {
     //first we need to hit the backend & try to remove the cookies
     //${baseURL}/api/v1/videos/homePage/videos`
@@ -66,8 +64,11 @@ function RightSideMenu() {
     //then navigate to the home page
     navigate("/" , {state : {message : "Successfully log out!"}})
   }
+  function changeToSearch() {
+    navigate("/searchPage")
+  }
   return <>
-    <div className='flex justify-evenly text-newPurple font-semibold max-lg:font-medium max-sm:justify-end max-sm:space-x-4'>
+    <div className='flex justify-around text-newPurple font-semibold max-lg:font-medium max-sm:justify-end max-sm:space-x-4'>
       {
         !isHome ? null : <Menu className="xl:hidden" onClick={changeSideBar}></Menu>
       }
@@ -90,12 +91,18 @@ function RightSideMenu() {
 
       <LogOut className='xl:hidden' onClick={changeNavigation}></LogOut>
       
-     <Search  className="xl:hidden" ></Search>
+      {
+        isSearch ? "" :
+        <Search className="xl:hidden" onClick={changeToSearch}></Search>}
      
       {!isHome ? <div className='max-xl:hidden'>
         <Home></Home>
         
       </div> : null}
+
+      { isSearch ? "": <div className='max-xl:hidden '>
+        <SearchPage></SearchPage>
+      </div>}
       
       {
         !isHome ? <Link to="/home"><House className='xl:hidden'></House></Link>  : null
@@ -105,17 +112,18 @@ function RightSideMenu() {
   </>
 }
 
-function SearchBar() {
-  
+function SearchPage() {
   return <>
-  <input type="search" placeholder="search" className={`w-full rounded-lg text-2xl  text-black pl-2 pt-2 pb-2 border dark:border-black`} maxLength={50}></input>
-  </>
+    <div className='cursor-pointer max-md:text-xl'>
+     <Link to="/searchPage"><h3>Search</h3></Link> 
+    </div>
+    </>
 }
 
 function Dashboard() {
   return <>
     <div className='cursor-pointer max-md:text-xl'>
-      <Link to="/profile"><h2>Profile</h2></Link>
+      <Link to="/profile"><h3 className='m-0'>Profile</h3></Link>
     
     </div>
   

@@ -24,7 +24,8 @@ function Profile() {
             }
         })
         .then(res => res.json())
-        .then(data => {
+            .then(data => {
+          
             setUserData(data.data)
         })
         .catch(err => {

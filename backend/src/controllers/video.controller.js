@@ -476,7 +476,26 @@ const getViews = asyncHandler(async(req,res) => {
     // console.log(views)
     return res.status(200).json(new ApiResponse(200 , views, "views for the video was successfully fetched"))
 })
+//this below route is used for getting the video based upon the search keyword given by the user
+const searchVideos = asyncHandler(async (req, res) => {
+    var { title, page } = req.query
+    var limit = 2
+    var skip =  (page  - 1) * limit
+   var totalCount = await Video.countDocuments({
+       title: { $regex: title, $options: "i" }
+    });
 
+   var videos = await Video.find({
+      title: { $regex: title, $options: "i" }
+    })
+   .skip(skip)
+        .limit(limit);
+    
+    var countDocuments = totalCount
+var totalPages = Math.ceil(totalCount / limit);
+       
+    return res.status(200).json(new ApiResponse(200 , { videos , countDocuments , totalPages } , "successful response"))
+})
 
 export {
     getAllVideos,
@@ -489,5 +508,6 @@ export {
     videosForHomepage,
     getOtherVideos,
     getViews,
-    getOtherVideos2
+    getOtherVideos2,
+    searchVideos
 }

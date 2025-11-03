@@ -17,7 +17,7 @@ import UpdatePlaylist from "./pages/privatePlaylist/updatePlaylist.jsx"
 import MySub from "./pages/MySubPlaylist/mySub.jsx"
 import UploadVideo from "./pages/UploadVideo/uploadVideo.jsx"
 import VideoForm from "./pages/UploadVideo/videoForm.jsx"
-
+import SearchPage from "./pages/SearchPage/searchPage.jsx"
 
 
 function App() {
@@ -47,6 +47,7 @@ var {user} = useContext(UserContext)
               <Route path="/updateProfile" element={<div></div>}></Route>
               <Route path="/uploadVideo" element={<div></div>}></Route>
               <Route path="/videoForm" element={<div></div>}></Route>
+              <Route path="/searchPage" element={<div></div>}></Route>
               </>) :
               (
                 <>
@@ -63,8 +64,9 @@ var {user} = useContext(UserContext)
           <Route path="/updatePlaylist" element={<UpdatePlaylist></UpdatePlaylist>}></Route>   
            <Route path="/mySub" element={<MySub></MySub>}></Route>    
           <Route path="/updateProfile" element={<UpdateProfile></UpdateProfile>}></Route>   
-                  <Route path="/uploadVideo" element={<UploadVideo></UploadVideo>}></Route> 
-        <Route path="/videoForm" element={<VideoForm></VideoForm>}></Route>          
+          <Route path="/uploadVideo" element={<UploadVideo></UploadVideo>}></Route> 
+          <Route path="/videoForm" element={<VideoForm></VideoForm>}></Route>     
+        <Route path="/searchPage" element={<SearchPage></SearchPage>}></Route>          
         </Route>   </> 
             )
         }
