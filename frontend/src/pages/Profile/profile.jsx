@@ -25,7 +25,7 @@ function Profile() {
         })
         .then(res => res.json())
             .then(data => {
-          
+            // console.log(data)
             setUserData(data.data)
         })
         .catch(err => {
@@ -35,7 +35,7 @@ function Profile() {
 
       },[user])
             
-    return <div className="dark:bg-purple-100 bg-mainBackground dark:text-black text-white z-[-10]" >
+    return <div className="dark:bg-purple-100 bg-mainBackground dark:text-black text-white z-[-10] min-h-dvh min-w-full" >
         <div>
             {userData ? <FirstPart userData={userData}></FirstPart> : <p className="text-2xl max-sm:text-xl text-white dark:text-black">Loading</p>}
             <SecondPart ></SecondPart>

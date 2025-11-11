@@ -84,7 +84,7 @@ export function SingleSection({ id, thumbnail, profilePhoto, title, channelName,
   }
   return <div className=" max-w-full md:m-5 text-white dark:text-black cursor-pointer" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onClick={()=>{handleClick(id)}}>
     <div className="pb-2 relative w-full" >
-      <img src={thumbnail} className="w-full ml-auto mr-auto max-md:w-[500px] h-[250px] max-xl:h-[230px]object-cover"></img>
+      <img src={thumbnail} className="w-full ml-auto mr-auto max-md:w-[500px] h-[250px] max-xl:h-[230px]object-cover "></img>
       {
          (
           <span className={`absolute inset-0 flex items-center justify-center transition-opacity duration-1000 ${isActive ? "opacity-90" : "opacity-0"}`}>

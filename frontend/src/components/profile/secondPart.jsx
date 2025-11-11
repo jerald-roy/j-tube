@@ -8,9 +8,11 @@ export default function SecondPart() {
     //this below state is used to check the size of the watch history data
     var [size, setSize] = useState(0)
     //this below state is used to check total pages for pagination
-    var [totalPage , setTotalPage] = useState(0)
+    var [totalPage, setTotalPage] = useState(0)
+    //this var is maintain which page are you in
+    var [page , setPage] = useState(1)
     useEffect(() => {
-        fetch(`${baseURL}/api/v1/users/history`, {
+        fetch(`${baseURL}/api/v1/users/history?page=${page}`, {
             method: 'GET',
             credentials: "include",
             headers: {
@@ -19,28 +21,31 @@ export default function SecondPart() {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data.data.watchHistoryResult[0].watchedVideos)
-                setWatchHistoryData(data.data.watchHistoryResult[0].watchedVideos)
-                setSize(data.data.watchHistoryResult[0].watchedVideos.length)
+                // console.log(data.data)
+                setWatchHistoryData(data.data.videos.watchedData)
+                setSize(data.data.totalSize)
                 setTotalPage(data.data.totalPages)
             })
             .catch(err => {
                 console.log(err)
             })
-    },[])
-    return <div className="grid pt-5 pl-2 pr-4">
+    },[page])
+    return <div className="grid pt-5 pl-2 pr-4 w-full">
         <div>
-            <div className="p-6 font-mono">
+            <div className="p-6 font-mono w-full">
                 <p className="text-4xl max-lg:text-3xl max-sm:text-2xl">Watch History :</p>
             </div>
-            <div className=" grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-10">
+            <div className="">
                 {
                     size ?
-                        <div>
+                        <div className="flex justify-around flex-wrap gap-y-4 w-full">
                             {
                                 watchHistoryData ? 
                                         watchHistoryData.map(item => {
-                                         return   <Cards item={item} key={item._id}></Cards>
+                                            return <div className="">
+                                               <Cards item={item} key={item._id}></Cards>
+                                            </div>
+                                           
                                         })
                                     
                                  : <div className="text-white dark:text-black">Loading...</div>
@@ -50,7 +55,7 @@ export default function SecondPart() {
                }
             </div>
             <div className="flex justify-center pb-10 pt-5">
-                    <Pagination page={totalPage} setPage={setTotalPage} totalPage={totalPage}></Pagination>
+                    <Pagination page={page} setPage={setPage} totalPage={totalPage}></Pagination>
                 </div>
             
         </div>

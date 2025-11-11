@@ -439,62 +439,83 @@ const getUserChannelProfile = asyncHandler(async(req, res) => {
 })
 
 const getWatchHistory = asyncHandler(async (req, res) => {
-  var { page = 1, limit = 2 } = req.query;
-  const skip = (page - 1) * limit;
-
-  var watchHistoryResult = await User.aggregate([
-    {
-      $match: { _id: new mongoose.Types.ObjectId(req.user._id) }
-    },
-    {
-      $project: {
-        watchHistory: 1,
-        _id: 0
-      }
-    },
-    {
-      $lookup: {
-        from: "videos",
-        let: { videoIds: "$watchHistory" },
-        pipeline: [
-          {
-            $match: {
-              $expr: { $in: ["$_id", "$$videoIds"] }
-            }
-          },
-          {
-            $lookup: {
-              from: "users",
-              localField: "owner",
-              foreignField: "_id",
-              as: "ownerDetails",
-              pipeline: [
-                { $project: { avatar: 1, _id: 0 } }
-              ]
-            }
-          },
-          { $unwind: "$ownerDetails" },
-          { $project: { thumbnail: 1, title: 1, owner: "$ownerDetails.avatar" } },
-          { $skip: skip },
-          { $limit: parseInt(limit) }
-        ],
-        as: "watchedVideos"
-      }
-    }
-  ]);
-
-  return res
-    .status(200)
-    .json(
-      new ApiResponse(
-        200,
+    var { page = 1, limit = 5 } = req.query;
+    const skip = (page - 1) * limit;
+    
+    var getHistory = await User.aggregate([
         {
-          watchHistoryResult
+            //ok we need to match the user now
+            $match: {
+                _id:new mongoose.Types.ObjectId(req?.user?._id)
+            },
+            // actually i feel we dont need to project here anything
+            //ok since we need to just have an array of video id which is present in the watchHistory field using this we need to proceed
+            //now i need to map those id's mentioned in the above comment with the original video adding to it the owner details also
+
         },
-        "Watch history fetched successfully"
-      )
-    );
-});
+        { $project: { watchHistory: 1 } },
+        {
+               $lookup: {
+                from: "videos",
+                let: { videoIds : "$watchHistory"},
+                pipeline: [
+                   { $match: {
+                       $expr: { $in: ["$_id","$$videoIds"] }
+                    }
+                    },
+                    {
+                        $lookup: {
+                            from: "users",
+                            localField: "owner",
+                            foreignField: "_id",
+                            as: "ownerDetails",
+                            pipeline: [
+                                { $project: {
+                                    avatar: 1,
+                                    _id:0
+                                }}
+                            ]
+                        }
+                    },
+                    {$unwind:"$ownerDetails"},
+                    {
+                        $project: {
+                              thumbnail: 1,
+                              title: 1,
+                              owner: "$ownerDetails.avatar"
+                        }
+                    },
+                    { $skip: skip },
+                    { $limit: limit }
+
+                ],
+                as:"watchedData"
+                
+            },
+           
+           
+        },
+        {
+            $project: {
+                watchHistory: 0,
+                _id:0
+            }
+        }
+          
+    ])
+    // total videos count
+    const totalVideos = (await User.aggregate([
+  { $match: { _id: new mongoose.Types.ObjectId(req?.user?._id) } },
+  { $project: { total: { $size: "$watchHistory" } } }
+    ]))[0]?.total || 0;
+
+    const totalPages = Math.ceil(totalVideos / limit);
+    // console.log(getHistory)
+    return res.status(200).json(new ApiResponse(200 , {videos:getHistory[0] ,totalPages , totalSize:totalVideos} , "data fetched"))
+})
+
+
+ 
 
 
 //the below controller is used for to get some few channels(images / profile) for the sidebar

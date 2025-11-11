@@ -6,7 +6,7 @@ export default function FirstPart({ userData }) {
     function handleEdit() {
          navigate("/updateProfile" ,{state:{id:userData.id}})
      }
-    return <div className="grid grid-cols-6 pt-5 font-mono  max-xl:grid-cols-1 text-3xl max-xl:text-2xl max-sm:text-xl">
+    return <div className="grid grid-cols-6 pt-5 font-mono  max-xl:grid-cols-1 text-3xl max-xl:text-2xl max-sm:text-xl w-full">
         <div className="col-span-2 grid justify-center">
             <div className="h-60 w-60 max-xl:h-42 max-xl:w-42">
                 <img src={userData.avatar} className="w-full h-full object-cover rounded-full"></img>

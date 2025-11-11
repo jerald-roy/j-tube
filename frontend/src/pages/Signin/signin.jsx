@@ -74,9 +74,9 @@ function Signin() {
        
     }
 
-    return <div className={` bg-cover bg-center min-h-screen  bg-fixed`}
+    return <div className={` bg-cover bg-center min-h-screen  `}
     style={{ backgroundImage: `url(${hello})` }}>
-        <div className=" grid grid-cols-2 place-items-center max-sm:grid-cols-1 gap-y-4 max-sm:gap-y-1 h-full" >
+        <div className=" grid grid-cols-2 place-items-center max-sm:grid-cols-1 gap-y-4 max-sm:gap-y-1 h-full max-sm:pb-10" >
              
             <div className="h-[100vh] max-sm:h-[95vh] w-full bg-[rgba(0,0,0,0.5)]">
                 <Single></Single>
@@ -84,7 +84,7 @@ function Signin() {
             <div className="w-full flex items-center justify-center  h-full">
                 <form onSubmit={handleSubmit} className=" bg-transparent w-[50%]  max-xl:w-[70%] max-sm:w-[90%] max-md:text-xl pb-2  " autoComplete="off">
                     <div className="grid bg-[rgba(0,0,0,0.5)] justify-center  pt-10 pb-10 max-sm:pb-1 max-sm:pt-1  h-full gap-y-4  ">
-                        <div className="w-full h-full">
+                        <div className="w-full h-full pt-4">
                              <input
                                    type="text"
                                    name="username"
@@ -97,7 +97,7 @@ function Signin() {
                         <div>
                             <div className="font-bold text-white text-2xl">or</div>
                         </div>
-                        <div>
+                        <div className="pt-4">
                               <input
                                      type="email"
                                      name="email"
@@ -107,7 +107,7 @@ function Signin() {
                                  className="bg-transparent w-full text-2xl text-white focus:outline-none border-white border-b placeholder:text-xl mb-2 max-md:text-xl"
                                ></input>
                         </div>
-                        <div>
+                        <div className="pt-4">
                               <input
                                   type="password"
                                   name="password"
@@ -117,10 +117,10 @@ function Signin() {
                                  className="bg-transparent w-full text-2xl text-white focus:outline-none border-white border-b placeholder:text-xl mb-2 max-md:text-xl"
                                 ></input>
                         </div>
-                        <div>
+                        <div className="pb-2">
                             <div className="pt-4 max-sm:pt-2">
-                            <button type="submit" className="bg-white p-2  max-sm:text-xl max-sm:p-1">Submit</button>
-                             <Link to="/register" className="w-10 h-10 ml-2 bg-white text-black p-2 max-sm:p-1 max-sm:text-xl"><button >register</button></Link>
+                            <button type="submit" className="bg-gray-50  pl-2 pr-2 pt-1 pb-1 max-sm:text-xl max-sm:p-1 rounded-md">Submit</button>
+                             <Link to="/register" className="w-10 h-10 ml-2  text-black p-2 max-sm:p-1 max-sm:text-xl"><button className="bg-gray-50 pl-2 pr-2 pt-1 pb-1 rounded-md">register</button></Link>
                             </div>
                             
             </div>
